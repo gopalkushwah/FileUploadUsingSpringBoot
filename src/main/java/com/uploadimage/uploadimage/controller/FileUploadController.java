@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.uploadimage.uploadimage.helper.ImageUploadHelper;
 
@@ -33,7 +34,8 @@ public class FileUploadController {
 
         boolean uploadFile = imageUploadHelper.uploadFile(multipartFile);
         if (uploadFile)
-            return ResponseEntity.ok("File Uploaded...");
+            return ResponseEntity.ok("File Uploaded..." + " : " + ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/image/").path(multipartFile.getOriginalFilename()).toUriString());
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong!");
 
